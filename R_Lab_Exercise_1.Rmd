@@ -1,10 +1,10 @@
 ---
 title: "DS311 - Basic R Lab Exercise"
-author: "Replace with Your Name"
-date: "1/10/2023"
+author: "Janaya"
+date: "4/09/2023"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 subtitle: R Lab Exercise
 ---
 
@@ -279,4 +279,5 @@ if (exists("x") == TRUE | exists("y") == TRUE | exists("z") == TRUE){
   print("You did not complete the last problem!")
 }
 ```
+
 
