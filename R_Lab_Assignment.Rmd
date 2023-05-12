@@ -1,7 +1,7 @@
 ---
 title: "DS311 - R Lab Assignment"
-author: "Your Name"
-date: "`r Sys.Date()`"
+author: "Janaya"
+date: "`r Sys.Date(today)`"
 output: 
   html_document:
     theme: united
@@ -35,10 +35,10 @@ a. Report the number of variables and observations in the data set.
 
 ```{r}
 # Enter your code here!
-
-
+dim(mtcars)
+dim(mtcars)
 # Answer:
-print("There are total of _____ variables and _____ observations in this data set.")
+print("There are total of 32 variables and 11 observations in this data set.")
 ```
 
 
@@ -47,10 +47,10 @@ b. Print the summary statistics of the data set and report how many discrete and
 
 ```{r}
 # Enter your code here!
-
+summary(mtcars)
 
 # Answer:
-print("There are _____ discrete variables and _____ continuous variables in this data set.")
+print("There are 0 discrete variables and 11 continuous variables in this data set.")
 ```
 
 
@@ -60,10 +60,15 @@ c. Calculate the mean, variance, and standard deviation for the variable **mpg**
 ```{r}
 # Enter your code here!
 
+m = mean(mtcars$mpg)
+v = var(mtcars$mpg)
+s = sd(mtcars$mpg)
 
-
-
-# print(paste("The average of Mile Per Gallon from this data set is ",  , " with variance ",  , " and standard deviation",  , "."))
+# 
+print(m)
+print(v)
+print(s)
+print(paste("The average of Mile Per Gallon from this data set is ", round(m,2) , " with variance ", round(v,2) , "and standard deviation", round(s,2) "."))
 ```
 
 
@@ -73,9 +78,12 @@ d. Create two tables to summarize 1) average mpg for each cylinder class and 2) 
 ```{r}
 # Enter your code here!
 
+data1 = setNames(aggregate(mpg~cyl, data=mtcars, FUN=mean), c('Cylinder', 'MPG_Avg'))
 
+data2 = setNames(aggregate(mpg~gear, data=mtcars, FUN=mean), c('Gear', 'MPG_Stg'))
 
-
+print(data1)
+print(data2)
 ```
 
 
@@ -85,8 +93,10 @@ e. Create a crosstab that shows the number of observations belong to each cylind
 ```{r}
 # Enter your code here!
 
+x = xtabs(~gear+cyl, data = mtcars)
 
-print("The most common car type in this data set is car with ____ cylinders and ____ gears. There are total of _____ cars belong to this specification in the data set.")
+print(x)
+print("The most common car type in this data set is car with 8 cylinders and 3 gears. There are total of 12 cars belong to this specification in the data set.")
 ```
 
 
@@ -107,6 +117,10 @@ head(PlantGrowth)
 
 # Enter your code here!
 
+library(ggplot2)
+g_plantgrowth = ggplot(data=PlantGrowth) + geom_boxplot(aes(x=group, y= weight))
+g_plantgrowth = g_plantgrowth + labs(titale="PlantGRowth", x="grouping", y="weight")
+g_plantgrowth
 
 ```
 
@@ -114,13 +128,14 @@ Result:
 
 => Report a paragraph to summarize your findings from the plot!
 
-
+Trt2 has the highest plant weight and the most growth; therefore, it is the best result.
 
 b. Using the **mtcars** data set, plot the histogram for the column **mpg** with 10 breaks. Give labels to the title, x-axis, and y-axis on the graph. Report the most observed mpg class from the data set.
 
 ```{r}
-
-
+g_mtcars = ggplot(data=mtcars) + geom_histogram(aes(x=mpg)), colour="black", fill="white", binwidth = 10
+g_mtcars = g_mtcars + lab(title = "mpg dist"), x="mpg", y="count"
+g_mtcars
 
 print("Most of the cars in this data set are in the class of ______ mile per gallon.")
 ```
@@ -137,6 +152,10 @@ data("USArrests")
 head(USArrests)
 
 # Enter your code here!
+library(ggplot2)
+
+g_usarrests = ggplot(USArrests), aes(x=murder, y=assult, label=rownames(USArrests)) + geom_point()
+g_usarrests = g_usarrests +labs(title="murder v assult", x="murder", y="assult")
 
 
 ```
@@ -172,7 +191,11 @@ a. Create your own descriptive statistics and aggregation tables to summarize th
 head(housingData)
 
 # Enter your code here!
-
+ count_neighborhood = housingData %>%
+   grouping(neighborhood) %>% count()
+ count_boro = housingData %>% grouping(boro) %>% count()
+ count_builtyear = housingData %>% grouping(year.built) %>% count()
+ count_neighborhood_boro_builtyear =  housingData %>% grouping(neighborhood, boro, yearbuilt) %>% count()
 
 ```
 
@@ -181,6 +204,10 @@ b. Create multiple plots to demonstrates the correlations between different vari
 ```{r}
 # Enter your code here!
 
+library(ggplot2)
+g_boro_built = ggplot(count_boro, aes(boro, n)) + geom_bar(stat="id")
+g_boro_built = g_boro_built + labs(title='houses built in boro', x="noro", y="houses")
+g_boro_built
 
 ```
 
