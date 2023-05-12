@@ -64,7 +64,6 @@ m = mean(mtcars$mpg)
 v = var(mtcars$mpg)
 s = sd(mtcars$mpg)
 
-# 
 print(m)
 print(v)
 print(s)
@@ -116,11 +115,11 @@ data("PlantGrowth")
 head(PlantGrowth)
 
 # Enter your code here!
-
-library(ggplot2)
-g_plantgrowth = ggplot(data=PlantGrowth) + geom_boxplot(aes(x=group, y= weight))
-g_plantgrowth = g_plantgrowth + labs(titale="PlantGRowth", x="grouping", y="weight")
-g_plantgrowth
+boxplot(PlantGrowth$weight ~ PlantGrowth$group,
+        col = c("#6AD9A5", "#88BAA3", "#406E58"),
+        main = "Weight x Group",
+        xlab = "Plant Group",
+        ylab = "Plant Weight")
 
 ```
 
@@ -133,11 +132,13 @@ Trt2 has the highest plant weight and the most growth; therefore, it is the best
 b. Using the **mtcars** data set, plot the histogram for the column **mpg** with 10 breaks. Give labels to the title, x-axis, and y-axis on the graph. Report the most observed mpg class from the data set.
 
 ```{r}
-g_mtcars = ggplot(data=mtcars) + geom_histogram(aes(x=mpg)), colour="black", fill="white", binwidth = 10
-g_mtcars = g_mtcars + lab(title = "mpg dist"), x="mpg", y="count"
-g_mtcars
+hist(mtcars$mpg, breaks = 10,
+     col = "#133B28",
+     main = "MPG",
+     xlab = "Miles Per Gallon",
+     ylab = "Rate")
 
-print("Most of the cars in this data set are in the class of ______ mile per gallon.")
+print("Most of the cars in this data set are in the class of 15 mile per gallon.")
 ```
 
 
@@ -152,19 +153,22 @@ data("USArrests")
 head(USArrests)
 
 # Enter your code here!
-library(ggplot2)
+pairs(USArrests,
+      col = "#135C3A",
+      main = "Pair Plot")
 
-g_usarrests = ggplot(USArrests), aes(x=murder, y=assult, label=rownames(USArrests)) + geom_point()
-g_usarrests = g_usarrests +labs(title="murder v assult", x="murder", y="assult")
-
-
+plot(USArrests$Assault, USArrests$Murder,
+     col = "#0D2419",
+     main = "Murder x Assault",
+     xlab = "# of Assaults",
+     ylab = "# of Murders")
 ```
 
 Result:
 
 => Report a paragraph to summarize your findings from the plot!
 
-
+The number of assults and murders correlate with one another. As the number of assaults rises, the number of murders rise, as well. 
 
 ***
 
@@ -174,28 +178,24 @@ Download the housing data set from www.jaredlander.com and find out what explain
 
 Note: Check your working directory to make sure that you can download the data into the data folder. 
 
-```{r, echo=FALSE}
+```
 # Load and clean the housing data set 
-download.file(url='https://www.jaredlander.com/data/housing.csv',
-              destfile='data/housing.csv', mode='wb')
-housingData <- read.csv('data/housing.csv')
-housingData <- subset(housingData, 
-                      select = c("Neighborhood", "Market.Value.per.SqFt", "Boro", "Year.Built"))
-housingData <- na.omit(housingData)                   
+```{r}
+data(housing)
+```
+             
 ```
 
 a. Create your own descriptive statistics and aggregation tables to summarize the data set and find any meaningful results between different variables in the data set.
 
 ```{r}
+data(housing)
+
 # Head of the cleaned data set
-head(housingData)
+head(housing)
 
 # Enter your code here!
- count_neighborhood = housingData %>%
-   grouping(neighborhood) %>% count()
- count_boro = housingData %>% grouping(boro) %>% count()
- count_builtyear = housingData %>% grouping(year.built) %>% count()
- count_neighborhood_boro_builtyear =  housingData %>% grouping(neighborhood, boro, yearbuilt) %>% count()
+
 
 ```
 
@@ -204,10 +204,7 @@ b. Create multiple plots to demonstrates the correlations between different vari
 ```{r}
 # Enter your code here!
 
-library(ggplot2)
-g_boro_built = ggplot(count_boro, aes(boro, n)) + geom_bar(stat="id")
-g_boro_built = g_boro_built + labs(title='houses built in boro', x="noro", y="houses")
-g_boro_built
+
 
 ```
 
